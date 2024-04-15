@@ -125,7 +125,12 @@ export const LoginScreen = () => {
                             <>
                                 {/* <WebView source={{ uri: googleLink }} /> */}
                                 {/* <WebView source={{ uri: 'https://reactnative.dev/' }} style={{ flex: 1 }} /> */}
-                                <TouchableOpacity style={loginStyles.google} >
+                                <TouchableOpacity 
+                                style={loginStyles.google} 
+                                onPress={() => {
+                                    Linking.openURL(googleLink)
+                                }}
+                                >
                                     <View>
                                         <GoogleLogo />
                                     </View>

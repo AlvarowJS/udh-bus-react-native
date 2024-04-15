@@ -6,6 +6,7 @@ import { HomeDriverStyle } from '../../theme/driverHomeTheme'
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { MapScreen } from '../../components/maps/MapScreen';
 
 const MapDriver = () => {
     const navigation = useNavigation()
@@ -36,6 +37,7 @@ const MapDriver = () => {
                     />
                 </TouchableOpacity>
             </View>
+            <MapScreen/>
         </>
     )
 }

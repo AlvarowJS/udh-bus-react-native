@@ -1,18 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { HomeDriverStyle } from '../../theme/driverHomeTheme'
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '../../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import busApi from '../../api/busApi';
-
-const data = [
-    { id: '1', title: 'Bus 1', subtitle: 'Placa X34543XD', status: 'disponible' },
-    { id: '2', title: 'Bus 2', subtitle: 'Placa Y45678YE', status: 'ocupado' },
-    { id: '3', title: 'Bus 3', subtitle: 'Placa Z56789ZF', status: 'disponible' },
-];
-
+import { Alert } from 'react-native';
+const asignarBus = '/driver/asignar-bus'
 
 
 const BusCard = ({ item, seleccionarBus, seleccionado }) => {
@@ -25,14 +20,15 @@ const BusCard = ({ item, seleccionarBus, seleccionado }) => {
             }>
             <Text style={
                 item.id == seleccionado ? HomeDriverStyle.busTitleBusActive :
-                    item.status == 'disponible' ? HomeDriverStyle.busTitleBusFree :
+                    item.status == 'disponible' || item.driver_id == item.id_user_actual ? HomeDriverStyle.busTitleBusFree :
                         item.status == 'ocupado' ? HomeDriverStyle.busTitleBusBusy :
                             null
             }>Bus {item.numero}</Text>
             <Text style={
                 item.id == seleccionado ? HomeDriverStyle.busSubtitleBusActive :
-                    item.status == 'disponible' ? HomeDriverStyle.busSubtitleBusFree :
-                        item.status == 'ocupado' ? HomeDriverStyle.busSubtitleBusBusy : null
+                    item.status == 'disponible' || item.driver_id == item.id_user_actual ? HomeDriverStyle.busSubtitleBusFree :
+                        item.status == 'ocupado' ? HomeDriverStyle.busSubtitleBusBusy : 
+                             null
 
             }>{item.placa}</Text>
         </TouchableOpacity>
@@ -42,20 +38,41 @@ const BusesList = () => {
     const navigation = useNavigation();
     const [seleccionado, setSeleccionado] = useState(null)
     const [buses, setBuses] = useState()
+    
+    const [refresh, setRefresh] = useState(false)
 
-    useEffect(() => {
-        busApi.get('/driver/mostrar-bus')
-            .then(res => {
-                setBuses(res?.data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     busApi.get('/driver/mostrar-bus')
+    //         .then(res => {
+    //             setBuses(res?.data)
+    //         })
+    // }, [refresh])
+    useFocusEffect(
+        useCallback(() => {
+            busApi.get('/driver/mostrar-bus')
+                .then(res => {
+                    setBuses(res?.data);
+                })
+                .catch(err => {
+                    console.log('Error fetching buses', err)
+                                        
+                }                    
+                );
+
+            return () => {
+            };
+        }, [refresh])
+    );
     
     const seleccionarBus = (id, data) => {
-        if (data.status == 'ocupado') {
+        
+        if(data.id_user_actual == data.driver_id){
+            setSeleccionado(id)            
+        } else if (data.status == 'ocupado'){
             return null
-        } else {
+        }      
+        else {            
             setSeleccionado(id)
-
         }
     }
 
@@ -63,7 +80,21 @@ const BusesList = () => {
         if (seleccionado == null) {
             return null
         } else {
-            navigation.navigate('MapDriver')
+            const newData = {id: seleccionado}
+            
+            busApi.post(asignarBus, newData)
+                .then(res => {
+                    setRefresh(!refresh)
+                    navigation.navigate('MapDriver')
+
+                })
+                .catch(err => {
+                    console.log(err)
+                    Alert.alert('Bus ya seleccionado', 'Bus ya seleccionado porfavor escoja otro.');
+                    setSeleccionado(null)  
+                    setRefresh(!refresh)                  
+                })
+            
         }
     }
 

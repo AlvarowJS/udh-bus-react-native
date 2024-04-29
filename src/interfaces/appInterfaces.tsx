@@ -7,6 +7,7 @@ export interface LoginData {
 export interface LoginResponse {
     token:  string;
     name: string;
+    nombres: string|null;
     email:  string;
     codigo: string;
     avatar?: string;
@@ -15,4 +16,5 @@ export interface LoginDriver {
     token: string;
     nombres: string;
     apellidos: string;
+    table: string;
 }

@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { HomeStudentStyle } from '../theme/homeStudentTheme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { MapScreenStudent } from '../components/maps/MapScreenStudent';
 
 
 const HomeStudent = () => {
@@ -32,6 +33,8 @@ const HomeStudent = () => {
         />
 
       </View>
+      <MapScreenStudent
+      />
     </>
   )
 }

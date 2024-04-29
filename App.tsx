@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Navigator } from './src/navigator/Navigator'
 import { AuthProvider } from './src/context/AuthContext'
 import { SideMenu } from './src/navigator/SideMenu'
+import { PermissionChecker } from './src/providers/PermissionChecker'
 
 const AppState = ({ children }: any) => {
   return (
@@ -17,7 +18,9 @@ const App = () => {
     <NavigationContainer>
       <AppState>
         {/* <Navigator /> */}
-        <SideMenu />
+        <PermissionChecker>
+          <SideMenu />
+        </PermissionChecker>
       </AppState>
     </NavigationContainer>
   )

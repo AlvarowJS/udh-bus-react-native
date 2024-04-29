@@ -9,7 +9,8 @@ export const HomeStudentStyle = StyleSheet.create({
         height: 80,
         backgroundColor: '#0CBB70',
         borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20
+        borderBottomLeftRadius: 20,
+        zIndex: 2
     },
     photo: {
         position: 'absolute',
@@ -26,6 +27,7 @@ export const HomeStudentStyle = StyleSheet.create({
         marginTop: 60,
         marginLeft: 80,
         position: 'absolute',
+        
     },
     logout: {
         color: 'white',

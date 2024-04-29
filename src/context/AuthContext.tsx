@@ -9,7 +9,7 @@ type AuthContextProps = {
     token: string | null;
     user: LoginResponse;
     userDriver: LoginDriver;
-    status: 'checking' | 'authenticated' | 'not-authenticate';
+    status: 'checking' | 'authenticated' | 'not-authenticate' | 'authenticated-driver';
     signUp: () => void;
     signIn: (LoginData: LoginData) => void;
     logOut: () => void;
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: any) => {
         await AsyncStorage.setItem('token', resp.data.token);
 
         if (resp?.data?.table == 'users') {
-            
+
             dispatch({
                 type: 'signUp',
                 payload: {
@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }: any) => {
                 }
             });
         } else {
-            console.log("driver")
             dispatch({
                 type: 'signUpDriver',
                 payload: {
@@ -72,9 +71,12 @@ export const AuthProvider = ({ children }: any) => {
 
         try {
             const regex = /@udh\.edu\.pe$/;
-
             if (!regex.test(email)) {
-                const { data } = await busApi.post<LoginDriver>('/driver/login', { email, password })
+
+                const { data } = await busApi.post<LoginDriver>('/driver/login', {
+                    email, password
+                });
+
                 dispatch({
                     type: 'signUpDriver',
                     payload: {
@@ -98,9 +100,13 @@ export const AuthProvider = ({ children }: any) => {
             }
 
         } catch (error) {
+            let errorMessage = 'Información Incorrecta';
+            if (error.response && error.response.data && error.response.data.msg) {
+                errorMessage = error.response.data.msg;
+            }
             dispatch({
                 type: 'addError',
-                payload: error.response.data.msg || 'Informacion Incorrecta'
+                payload: errorMessage
             })
         }
     };

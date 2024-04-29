@@ -127,11 +127,13 @@ export const HomeDriverStyle = StyleSheet.create({
         position: 'absolute'
     },
     menu: {
+        position: 'absolute',
         color: 'white',
         fontWeight: 'bold',
         marginTop: 50,
         left: 10,
-        position: 'absolute',
+        zIndex: 10
+        
     },
     logout: {
         color: 'white',

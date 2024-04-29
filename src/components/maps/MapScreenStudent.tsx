@@ -13,22 +13,21 @@ interface Props {
     initialLocation: Location
 }
 
-export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) => {
-
+export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     const mapRef = useRef<MapView>();
-    const cameraLocation = useRef<Location>(initialLocation);
     const [isFollowingUser, setIsFollowingUser] = useState(true)
     const [isShowingPolyline, setIsShowingPolyline] = useState(true)
     const [socket, setSocket] = useState<WebSocket | null>(null); // Estado para almacenar el objeto WebSocket
     const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
+    const [busLocation, setBusLocation] = useState<Location | null>(null);
 
     const connectToWebSocket = () => {
         const ws = new WebSocket('ws://localhost:3000');
 
         ws.onopen = () => {
             console.log('Conexión WebSocket establecida');
-            setSocket(ws)            
+            setSocket(ws)
             setIsConnected(true);
             setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
         };
@@ -36,18 +35,18 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
         ws.onclose = () => {
             console.log('Conexión WebSocket cerrada');
             setIsConnected(false);
-            // Intenta reconectarse después de 5 segundos
-            setReconnectTimer(setTimeout(connectToWebSocket, 5000));
+            setReconnectTimer(setTimeout(connectToWebSocket, 15000));
         };
-
         ws.onmessage = (event) => {
-            // console.log('Mensaje recibido del servidor:', event.data);
+            console.log(event.data);
+            const data = JSON.parse(event.data);
+            console.log(data,"asd")
+            // Aquí recibes los datos del bus desde el WebSocket
+            // Supongamos que el servidor envía la ubicación del bus como un objeto con las propiedades "latitude" y "longitude"
+            if (data.latitude && data.longitude) {
+                setBusLocation({ latitude: data.latitude, longitude: data.longitude });
+            }
         };
-
-        ws.onerror = (error) => {
-            // console.error('Error en la conexión WebSocket:', error);
-        };
-
         return ws;
     };
     const socketRef = useRef<WebSocket | null>(null);
@@ -75,9 +74,9 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
     }
 
     const moveToCurrentLocation = async () => {
-        if (!lastKnownLocation) {
-            moveCamaraToLocation(initialLocation);
-        }
+        // if (!lastKnownLocation) {
+        //     moveCamaraToLocation(initialLocation);
+        // }
         const location = await getLocation();
         if (!location) return;
         moveCamaraToLocation(location)
@@ -116,8 +115,8 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                     // style={{flex: 1}}
                     onTouchStart={() => setIsFollowingUser(false)}
                     region={{
-                        latitude: cameraLocation.current.latitude,
-                        longitude: cameraLocation.current.longitude,
+                        latitude: 37.78825,
+                        longitude: -122.432,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
@@ -132,7 +131,7 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                         )
                     }
                     {/* {showUserLocation && lastKnownLocation && ( */}
-                    <Marker coordinate={{ latitude: lastKnownLocation.latitude, longitude: lastKnownLocation.longitude }}>
+                    <Marker coordinate={{ latitude: 37.78825, longitude: -122.432 }}>
                         <UserLocationIcon />
                     </Marker>
                     {/* )} */}

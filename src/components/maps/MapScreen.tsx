@@ -24,7 +24,8 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
     const [isConnected, setIsConnected] = useState(false);
 
     const connectToWebSocket = () => {
-        const ws = new WebSocket('ws://localhost:3000');
+        // const ws = new WebSocket('ws://localhost:3000');
+        const ws = new WebSocket('ws://192.168.1.39:3000');
 
         ws.onopen = () => {
             console.log('Conexión WebSocket establecida');
@@ -132,7 +133,7 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                         )
                     }
                     {/* {showUserLocation && lastKnownLocation && ( */}
-                    <Marker coordinate={{ latitude: lastKnownLocation.latitude, longitude: lastKnownLocation.longitude }}>
+                    <Marker coordinate={{ latitude: lastKnownLocation?.latitude, longitude: lastKnownLocation?.longitude }}>
                         <UserLocationIcon />
                     </Marker>
                     {/* )} */}

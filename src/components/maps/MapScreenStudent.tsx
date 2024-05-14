@@ -3,10 +3,11 @@ import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import { Location } from "../../interfaces/location";
 import { getCurrentLocation } from "../../actions/location/location";
 import { FAB } from "../ui/FAB";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocationStore } from "../../store/location/useLocationStore";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useFocusEffect } from "@react-navigation/native";
 
 interface Props {
     showUserLocation?: boolean;
@@ -21,12 +22,14 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [busLocation, setBusLocation] = useState<Location | null>(null);
+    const [latitudeState, setLatitudeState] = useState(37.78825);
+    const [longitudeState, setLongitudeState] = useState(-122.432)
 
     const connectToWebSocket = () => {
-        const ws = new WebSocket('ws://localhost:3000');
-
+        console.log("holaa")
+        const ws = new WebSocket('ws://192.168.1.39:3000');
         ws.onopen = () => {
-            console.log('Conexión WebSocket establecida');
+            console.log('Conexión WebSocket Estudiante establecida');
             setSocket(ws)
             setIsConnected(true);
             setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
@@ -35,75 +38,59 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
         ws.onclose = () => {
             console.log('Conexión WebSocket cerrada');
             setIsConnected(false);
-            setReconnectTimer(setTimeout(connectToWebSocket, 15000));
+            // Intenta reconectarse después de 5 segundos
+            setReconnectTimer(setTimeout(connectToWebSocket, 5000));
         };
+
         ws.onmessage = (event) => {
-            console.log(event.data);
-            const data = JSON.parse(event.data);
-            console.log(data,"asd")
-            // Aquí recibes los datos del bus desde el WebSocket
-            // Supongamos que el servidor envía la ubicación del bus como un objeto con las propiedades "latitude" y "longitude"
-            if (data.latitude && data.longitude) {
-                setBusLocation({ latitude: data.latitude, longitude: data.longitude });
-            }
+            // console.log('Mensaje recibido del servidor:', event.data, typeof (event.data));
+            const coordenadasJson = JSON.parse(event.data);
+            const latitude = coordenadasJson.payload.latitude;
+            const longitude = coordenadasJson.payload.longitude;
+            setLatitudeState(latitude)
+            setLongitudeState(longitude)
+
         };
-        return ws;
+        return ws
     };
     const socketRef = useRef<WebSocket | null>(null);
 
-    useEffect(() => {
-        socketRef.current = connectToWebSocket();
+    // useEffect(() => {
+    //     socketRef.current = connectToWebSocket();
 
-        return () => {
-            if (socketRef.current) {
-                socketRef.current.close();
-            }
-            // Limpiar el temporizador de reconexión al desmontar el componente
-            if (reconnectTimer) {
-                clearTimeout(reconnectTimer);
-            }
-        };
-    }, []);
+    //     return () => {
+    //         if (socketRef.current) {
+    //             socketRef.current.close();
+    //         }
+    //         // Limpiar el temporizador de reconexión al desmontar el componente
+    //         if (reconnectTimer) {
+    //             clearTimeout(reconnectTimer);
+    //         }
+    //     };
+    // }, []);
+    useFocusEffect(
+        useCallback(() => {
+            socketRef.current = connectToWebSocket();
+
+            return () => {
+                if (socketRef.current) {
+                    socketRef.current.close();
+                }
+                // Limpiar el temporizador de reconexión al desmontar el componente
+                if (reconnectTimer) {
+                    clearTimeout(reconnectTimer);
+                }
+            };
+        }, [])
+    );
 
     const { getLocation, lastKnownLocation, watchLocation, clearWatchLocation, userLocationsList } = useLocationStore();
-
-    const moveCamaraToLocation = (location: Location) => {
-        if (!mapRef.current) return;
-
-        mapRef.current.animateCamera({ center: location });
-    }
-
-    const moveToCurrentLocation = async () => {
-        // if (!lastKnownLocation) {
-        //     moveCamaraToLocation(initialLocation);
-        // }
-        const location = await getLocation();
-        if (!location) return;
-        moveCamaraToLocation(location)
-    }
-
-    useEffect(() => {
-        watchLocation();
-
-        return () => {
-            clearWatchLocation();
-        }
-    }, [])
-
-    useEffect(() => {
-        if (lastKnownLocation && isFollowingUser) {
-            moveCamaraToLocation(lastKnownLocation);
-        }
-        const message = JSON.stringify({
-            latitude: lastKnownLocation?.latitude,
-            longitude: lastKnownLocation?.longitude
-        });
-        socket?.send(message)
-    }, [lastKnownLocation, isFollowingUser])
 
     const UserLocationIcon = () => (
         <MaterialCommunityIcons name="bus-side" size={50} color="black" />
     );
+
+
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
@@ -115,8 +102,8 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                     // style={{flex: 1}}
                     onTouchStart={() => setIsFollowingUser(false)}
                     region={{
-                        latitude: 37.78825,
-                        longitude: -122.432,
+                        latitude: latitudeState,
+                        longitude: longitudeState,
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
                     }}
@@ -131,7 +118,7 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                         )
                     }
                     {/* {showUserLocation && lastKnownLocation && ( */}
-                    <Marker coordinate={{ latitude: 37.78825, longitude: -122.432 }}>
+                    <Marker coordinate={{ latitude: latitudeState, longitude: longitudeState }}>
                         <UserLocationIcon />
                     </Marker>
                     {/* )} */}
@@ -151,14 +138,6 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                     onPress={() => setIsFollowingUser(!isFollowingUser)}
                     style={{
                         bottom: 80,
-                        right: 20
-                    }}
-                />
-                <FAB
-                    iconName="compass-outline"
-                    onPress={moveToCurrentLocation}
-                    style={{
-                        bottom: 20,
                         right: 20
                     }}
                 />

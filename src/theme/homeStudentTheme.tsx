@@ -34,6 +34,7 @@ export const HomeStudentStyle = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 50,
         right: 10,
+        zIndex: 100,
         // marginLeft: 320,
         position: 'absolute',
     }    

@@ -30,8 +30,7 @@ const HomeStudent = () => {
           size={20}
           style={HomeStudentStyle.logout}
           onPress={logOut}
-        />
-
+        />          
       </View>
       <MapScreenStudent
       />

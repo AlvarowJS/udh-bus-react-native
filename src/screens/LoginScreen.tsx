@@ -41,6 +41,10 @@ export const LoginScreen = () => {
 
     const googleLink = 'http://127.0.0.1:8000/api/login/';
 
+    const abrirGoogleAutentication = () => {
+        console.log("click");
+    };
+
 
 
     return (
@@ -125,11 +129,11 @@ export const LoginScreen = () => {
                             <>
                                 {/* <WebView source={{ uri: googleLink }} /> */}
                                 {/* <WebView source={{ uri: 'https://reactnative.dev/' }} style={{ flex: 1 }} /> */}
-                                <TouchableOpacity 
-                                style={loginStyles.google} 
-                                onPress={() => {
-                                    Linking.openURL(googleLink)
-                                }}
+                                <TouchableOpacity
+                                    style={loginStyles.google}
+                                    onPress={                                        
+                                        abrirGoogleAutentication                              
+                                    }
                                 >
                                     <View>
                                         <GoogleLogo />
@@ -137,6 +141,8 @@ export const LoginScreen = () => {
                                     <View>
                                         <Text>Registrar con Google</Text>
                                     </View>
+                                    
+                                   
                                 </TouchableOpacity>
                             </>
                         )
@@ -144,7 +150,8 @@ export const LoginScreen = () => {
                     }
 
                 </View>
-            </KeyboardAvoidingView>
+           
+            </KeyboardAvoidingView >
         </>
     )
 }

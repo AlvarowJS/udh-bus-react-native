@@ -86,7 +86,6 @@ const BusesList = () => {
                 .then(res => {
                     setRefresh(!refresh)
                     navigation.navigate('MapDriver')
-
                 })
                 .catch(err => {
                     console.log(err)

@@ -20,20 +20,44 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>GoogleSignIn</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Necesito tu ubicación para mostrar el mapa.</string>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>YOUR-PURPOSE-KEY</key>
+		<string>Necesito tu ubicación para mostrar el mapa.</string>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Necesito tu ubicación para mostrar el mapa.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,21 +72,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>UIAppFonts</key>
-  <array>
-    <string>Ionicons.ttf</string>
-    <string>MaterialCommunityIcons.ttf</string>    
-  </array>
-  
-  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-   <string>Necesito tu ubicación para mostrar el mapa.</string>
-   <key>NSLocationTemporaryUsageDescriptionDictionary</key>
-   <dict>
-     <key>YOUR-PURPOSE-KEY</key>
-     <string>Necesito tu ubicación para mostrar el mapa.</string>
-   </dict>
-   <key>NSLocationWhenInUseUsageDescription</key>
-   <string>Necesito tu ubicación para mostrar el mapa.</string>
-   
 </dict>
-  </plist>
+</plist>

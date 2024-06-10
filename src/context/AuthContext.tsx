@@ -3,6 +3,8 @@ import { LoginData, LoginDriver, LoginResponse } from "../interfaces/appInterfac
 import { AuthState, authReducer } from "./authReducer";
 import busApi from "../api/busApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userRequest } from "../interfaces/userGoogle";
+import { statusCodes, GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 type AuthContextProps = {
     errorMessage: string;
@@ -12,7 +14,9 @@ type AuthContextProps = {
     status: 'checking' | 'authenticated' | 'not-authenticate' | 'authenticated-driver';
     signUp: () => void;
     signIn: (LoginData: LoginData) => void;
+    signInGoogleManual: (data: userRequest) => void;
     logOut: () => void;
+    logOutGoogle: () => void;
     removeError: () => void;
 
 }
@@ -23,6 +27,16 @@ const authInicialState: AuthState = {
     user: null,
     errorMessage: ''
 }
+
+// useEffect(() => {
+GoogleSignin.configure({
+    //   webClientId: '803651617332-bjr6fkgfnlme290icjl7jg7vnoeacchu.apps.googleusercontent.com', // Obtén esto desde la consola de desarrolladores de Google
+    scopes: ['email'],
+    webClientId: '803651617332-3i05qlcukt69u1tssq0qfdvjk93oitsc.apps.googleusercontent.com',
+    iosClientId: '803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t.apps.googleusercontent.com',
+    offlineAccess: true,
+});
+// }, []);
 
 export const AuthContext = createContext({} as AuthContextProps);
 
@@ -99,7 +113,7 @@ export const AuthProvider = ({ children }: any) => {
                 await AsyncStorage.setItem('token', data.token)
             }
 
-        } catch (error) {
+        } catch (error: any) {
             let errorMessage = 'Información Incorrecta';
             if (error.response && error.response.data && error.response.data.msg) {
                 errorMessage = error.response.data.msg;
@@ -110,11 +124,57 @@ export const AuthProvider = ({ children }: any) => {
             })
         }
     };
+    const signInGoogleManual = async ({ name, email, photo, id }: userRequest) => {
+        try {
+            const { data } = await busApi.post<LoginResponse>('/google-register', {
+                name, email, photo, id
+            });
+            dispatch({
+                type: 'signUp',
+                payload: {
+                    token: data.token,
+                    user: data
+                }
+            });
+            await AsyncStorage.setItem('token', data.token);
+        } catch (error: any) {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+            let errorMessage = 'Error al iniciar sesión con Google';
+            if (error.response && error.response.data && error.response.data.msg) {
+                errorMessage = error.response.data.msg;
+
+            }
+            dispatch({
+                type: 'addError',
+                payload: errorMessage
+            });
+        }
+    };
+
     const signUp = () => { };
-    const logOut = async () => {
+    const logOut = async () => {     
+        console.log("deslogueo")
+        await busApi.get('/driver/terminar-bus');
+
         await AsyncStorage.removeItem('token');
         dispatch({ type: 'logout' })
     };
+
+    const logOutGoogle = async () => {
+        await AsyncStorage.removeItem('token');
+        try {
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+        }
+        catch (error) {
+            console.log(error)
+        }
+        dispatch({ type: 'logout' })
+        console.log("todobien")
+
+    }
+
     const removeError = () => {
         dispatch({ type: 'removeError' })
     };
@@ -125,6 +185,8 @@ export const AuthProvider = ({ children }: any) => {
             signUp,
             signIn,
             logOut,
+            logOutGoogle,
+            signInGoogleManual,
             removeError
         }}>
             {children}

@@ -5,13 +5,12 @@ import { HomeStudentStyle } from '../theme/homeStudentTheme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { MapScreenStudent } from '../components/maps/MapScreenStudent';
+import { useLocationStore } from '../store/location/useLocationStore';
 
 
 const HomeStudent = () => {
-  const { user, token, logOut } = useContext(AuthContext);
-  // const words = user?.name?.split(' ');
-  // const firstTwoWords = words?.slice(0, 2);
-  // const displayName = firstTwoWords?.join(' ');
+  const { user, token, logOut, logOutGoogle } = useContext(AuthContext);  
+  
   return (
     <>
       <View style={HomeStudentStyle.header} >
@@ -21,19 +20,21 @@ const HomeStudent = () => {
         />
         <Text style={HomeStudentStyle.name}>
           {user?.name.split(' ').slice(0, 2).join(' ')}
-        </Text>
-
+        </Text>     
+        
       </View>
       <View>
         <MaterialCommunityIcons
           name="logout"
           size={20}
           style={HomeStudentStyle.logout}
-          onPress={logOut}
-        />          
+          onPress={logOutGoogle}
+        />                  
       </View>
+      
       <MapScreenStudent
       />
+    
     </>
   )
 }

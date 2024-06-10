@@ -29,11 +29,11 @@ export const HomeStudentStyle = StyleSheet.create({
         position: 'absolute',
         
     },
-    logout: {
+    logout: {        
         color: 'white',
         fontWeight: 'bold',
         marginTop: 50,
-        right: 10,
+        right: 20,
         zIndex: 100,
         // marginLeft: 320,
         position: 'absolute',

@@ -1113,8 +1113,8 @@ PODS:
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
-  - RNGoogleSignin (11.0.0):
-    - GoogleSignIn (~> 7.0)
+  - RNGoogleSignin (11.0.1):
+    - GoogleSignIn (~> 7.0.0)
     - React-Core
   - RNPermissions (4.1.5):
     - React-Core
@@ -1390,7 +1390,7 @@ SPEC CHECKSUMS:
   ReactCommon: 840a955d37b7f3358554d819446bffcf624b2522
   RNCAsyncStorage: 014a78b2cc8cc107c9e92ee428dc0c1ac3223416
   RNGestureHandler: deda62b8339496ba721a45e0f3e2d7a319932cee
-  RNGoogleSignin: fc408799f1990a12497a32f64280c0fe353ffcc1
+  RNGoogleSignin: 24d3b3261f78b0fae0aa013f8ab6f8d25e369b0c
   RNPermissions: a4c964f030841f35d918ab3248df9dec9db5f44d
   RNReanimated: beb07f7f900543928467da8107c175d1e57a1049
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2

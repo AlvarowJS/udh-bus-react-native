@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import { Location } from "../../interfaces/location";
 import { getCurrentLocation } from "../../actions/location/location";
@@ -25,11 +25,13 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
 
     const connectToWebSocket = () => {
         // const ws = new WebSocket('ws://localhost:3000');
-        const ws = new WebSocket('ws://192.168.1.39:3000');
+        const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000' : 'ws://192.168.1.39:3000';
+
+        const ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
             console.log('Conexión WebSocket establecida');
-            setSocket(ws)            
+            setSocket(ws)
             setIsConnected(true);
             setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
         };
@@ -132,11 +134,14 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                             />
                         )
                     }
-                    {/* {showUserLocation && lastKnownLocation && ( */}
-                    <Marker coordinate={{ latitude: lastKnownLocation?.latitude, longitude: lastKnownLocation?.longitude }}>
-                        <UserLocationIcon />
-                    </Marker>
-                    {/* )} */}
+                    {lastKnownLocation && (
+                        <Marker coordinate={{ latitude: lastKnownLocation.latitude, longitude: lastKnownLocation.longitude }}>
+                            <Image
+                                source={require('../../assets/busudh.png')}
+                                style={{ width: 60, height: 30 }}
+                            />
+                        </Marker>
+                    )}
 
 
                 </MapView>

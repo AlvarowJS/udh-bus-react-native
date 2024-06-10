@@ -1,13 +1,15 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { Image, Pressable, StyleSheet, Text, View, Platform } from "react-native"
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import { Location } from "../../interfaces/location";
 import { getCurrentLocation } from "../../actions/location/location";
 import { FAB } from "../ui/FAB";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useLocationStore } from "../../store/location/useLocationStore";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFocusEffect } from "@react-navigation/native";
+import Paraderos from "./Paraderos";
+import Estados from "./Estados";
 
 interface Props {
     showUserLocation?: boolean;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
+    
     const mapRef = useRef<MapView>();
     const [isFollowingUser, setIsFollowingUser] = useState(true)
     const [isShowingPolyline, setIsShowingPolyline] = useState(true)
@@ -22,15 +25,18 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [busLocation, setBusLocation] = useState<Location | null>(null);
-    const [latitudeState, setLatitudeState] = useState(37.78825);
+    const [latitudeState, setLatitudeState] = useState(37.77825);
     const [longitudeState, setLongitudeState] = useState(-122.432)
-
+    
     const connectToWebSocket = () => {
-        console.log("holaa")
-        const ws = new WebSocket('ws://192.168.1.39:3000');
+
+        const wsUrl = Platform.OS == 'ios' ? 'ws://localhost:3000' : 'ws://192.168.1.49:3000';
+
+        const ws = new WebSocket(wsUrl);
+
+        // const ws = new WebSocket('ws://192.168.1.39:3000');
         ws.onopen = () => {
-            console.log('Conexión WebSocket Estudiante establecida');
-            setSocket(ws)
+            setSocket(ws)            
             setIsConnected(true);
             setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
         };
@@ -43,33 +49,27 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
         };
 
         ws.onmessage = (event) => {
+            console.log("on mensaje")
             // console.log('Mensaje recibido del servidor:', event.data, typeof (event.data));
             const coordenadasJson = JSON.parse(event.data);
             const latitude = coordenadasJson.payload.latitude;
             const longitude = coordenadasJson.payload.longitude;
-            setLatitudeState(latitude)
-            setLongitudeState(longitude)
+            setIsConnected(true)
+            if (latitude !== latitudeState || longitude !== longitudeState) {
+                setLatitudeState(latitude)
+                setLongitudeState(longitude)
+                
+            }
 
         };
         return ws
     };
+
     const socketRef = useRef<WebSocket | null>(null);
 
-    // useEffect(() => {
-    //     socketRef.current = connectToWebSocket();
-
-    //     return () => {
-    //         if (socketRef.current) {
-    //             socketRef.current.close();
-    //         }
-    //         // Limpiar el temporizador de reconexión al desmontar el componente
-    //         if (reconnectTimer) {
-    //             clearTimeout(reconnectTimer);
-    //         }
-    //     };
-    // }, []);
     useFocusEffect(
         useCallback(() => {
+
             socketRef.current = connectToWebSocket();
 
             return () => {
@@ -86,10 +86,6 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
 
     const { getLocation, lastKnownLocation, watchLocation, clearWatchLocation, userLocationsList } = useLocationStore();
 
-    const UserLocationIcon = () => (
-        <MaterialCommunityIcons name="bus-side" size={50} color="black" />
-    );
-
 
     return (
         <View style={styles.container}>
@@ -97,7 +93,7 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                 <MapView
                     ref={(map) => mapRef.current = map!}
                     showsUserLocation={showUserLocation}
-                    provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                    provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     // style={{flex: 1}}
                     onTouchStart={() => setIsFollowingUser(false)}
@@ -117,19 +113,29 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                             />
                         )
                     }
-                    {/* {showUserLocation && lastKnownLocation && ( */}
                     <Marker coordinate={{ latitude: latitudeState, longitude: longitudeState }}>
-                        <UserLocationIcon />
+                        <Image
+                            source={require('../../assets/busudh.png')}
+                            style={{ width: 60, height: 30 }}
+                        />
                     </Marker>
-                    {/* )} */}
-
-
+                    <Paraderos />
                 </MapView>
+                <View style={{
+                    bottom: -280,
+                }}>
+                    {
+                        isConnected ? null : (
+                            <Estados/>
+                        )
+                    }
+                                 
+                </View>
                 <FAB
                     iconName="eye-outline"
                     onPress={() => setIsShowingPolyline(!isShowingPolyline)}
                     style={{
-                        bottom: 140,
+                        bottom: 200,
                         right: 20
                     }}
                 />
@@ -137,7 +143,7 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                     iconName="walk-outline"
                     onPress={() => setIsFollowingUser(!isFollowingUser)}
                     style={{
-                        bottom: 80,
+                        bottom: 140,
                         right: 20
                     }}
                 />

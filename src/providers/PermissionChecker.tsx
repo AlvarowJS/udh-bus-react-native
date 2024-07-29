@@ -27,8 +27,7 @@ export const PermissionChecker = ({ children }: PropsWithChildren) => {
         checkLocationPermission();
     }, [])
 
-    useEffect(() => {
-        console.log(status, "gaalos")
+    useEffect(() => {        
         if(status === 'authenticated'){
             if (locationStatus === 'granted') {
                 navigation.reset({
@@ -43,10 +42,9 @@ export const PermissionChecker = ({ children }: PropsWithChildren) => {
         }else if (status === 'authenticated-driver'){
             if (locationStatus === 'granted') {
                 navigation.reset({
-                    routes: [{ name: 'MapDriver' }],
+                    routes: [{ name: 'HomeDriver' }],
                 });
-            } else if (locationStatus !== 'undetermined') {
-                console.log(locationStatus, "ga")
+            } else if (locationStatus !== 'undetermined') {                
                 navigation.reset({
                     routes: [{ name: 'PermissionsScreen' }],
                 });

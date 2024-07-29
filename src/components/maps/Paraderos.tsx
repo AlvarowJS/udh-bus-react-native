@@ -23,8 +23,9 @@ const Paraderos = () => {
 
     return (
         <View>
-            {paraderos?.map((paradero: Paradero) => (
+            {paraderos?.map((paradero: Paradero, index: number) => (
                 <Marker
+                    key={index}
                     coordinate={{ latitude: paradero?.latitud, longitude: paradero?.longitud }}
                     title={paradero?.titulo}
                     description={paradero?.descripccion}

@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "start:ios": "npm run ios -- --simulator='iPhone SE (3rd generation) (7C7BF774-3D33-4124-A27E-C8C0F0081A99)'"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.22.2",

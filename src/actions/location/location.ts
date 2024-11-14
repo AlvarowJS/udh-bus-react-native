@@ -27,8 +27,8 @@ export const watchCurrentLocation = (
 ): number => {
     return Geolocation.watchPosition(info => (
         locationCallback({
-            latitude: info.coords.latitude,
-            longitude: info.coords.longitude,
+            latitude: info?.coords?.latitude,
+            longitude: info?.coords?.longitude,
         })
     ), (error) => {
         throw new Error('Cant get watch position')

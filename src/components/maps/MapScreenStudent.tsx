@@ -29,7 +29,7 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     const [longitudeState, setLongitudeState] = useState(-122.432)
     
     const connectToWebSocket = () => {
-
+        
         const wsUrl = Platform.OS == 'ios' ? 'ws://localhost:3000' : 'ws://192.168.1.49:3000';
 
         const ws = new WebSocket(wsUrl);

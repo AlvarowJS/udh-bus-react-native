@@ -65,7 +65,6 @@ export const LoginScreen = () => {
             const userInfo = await GoogleSignin.signIn();
             signInGoogleManual(userInfo.user)
         } catch (error: any) {
-            console.log("holaaaaaa?")
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {

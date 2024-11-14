@@ -1,15 +1,17 @@
-import { PropsWithChildren, useContext, useEffect } from 'react'
+import { PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import { usePermissionStore } from '../store/permissions/usePermissionStore'
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../navigator/Navigator';
 import { AuthContext } from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const PermissionChecker = ({ children }: PropsWithChildren) => {
 
     const { locationStatus, checkLocationPermission } = usePermissionStore();
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { status } = useContext(AuthContext)
+    const [numberBus, setNumberBus] = useState<string | null>(null)
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', (nextAppState) => {
@@ -26,9 +28,30 @@ export const PermissionChecker = ({ children }: PropsWithChildren) => {
     useEffect(() => {
         checkLocationPermission();
     }, [])
+    // useEffect(() => {
+    const checkNumberBus = async () => {
+        try {
+            const numberBus = await AsyncStorage.getItem('busNumero');            
 
-    useEffect(() => {        
-        if(status === 'authenticated'){
+            if (numberBus) {
+                setNumberBus(numberBus);
+            } else {
+                setNumberBus('');
+            }
+        } catch (error) {
+            console.error("Error al obtener datos de AsyncStorage:", error);
+        }
+    };
+
+
+
+
+    // }, [status])
+
+    useEffect(() => {
+        checkNumberBus()
+
+        if (status === 'authenticated') {
             if (locationStatus === 'granted') {
                 navigation.reset({
                     routes: [{ name: 'HomeStudent' }],
@@ -39,29 +62,26 @@ export const PermissionChecker = ({ children }: PropsWithChildren) => {
                     routes: [{ name: 'PermissionsScreen' }],
                 });
             }
-        }else if (status === 'authenticated-driver'){
+        } else if (status === 'authenticated-driver') {
             if (locationStatus === 'granted') {
-                navigation.reset({
-                    routes: [{ name: 'HomeDriver' }],
-                });
-            } else if (locationStatus !== 'undetermined') {                
+                if (numberBus) {
+                    navigation.reset({
+                        routes: [{ name: 'MapDriver' }],
+                    });
+                } else {
+                    navigation.reset({
+                        routes: [{ name: 'HomeDriver' }],
+                    });
+                }
+
+            } else if (locationStatus !== 'undetermined') {
                 navigation.reset({
                     routes: [{ name: 'PermissionsScreen' }],
                 });
             }
-        }else {
+        } else {
             null
         }
-        // if (locationStatus === 'granted') {
-        //     navigation.reset({
-        //         routes: [{ name: 'MapDriver' }],
-        //     });
-        // } else if (locationStatus !== 'undetermined') {
-        //     console.log(locationStatus, "ga")
-        //     navigation.reset({
-        //         routes: [{ name: 'PermissionsScreen' }],
-        //     });
-        // }
     }, [locationStatus, status])
 
     return (

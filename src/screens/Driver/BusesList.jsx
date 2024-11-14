@@ -7,6 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import busApi from '../../api/busApi';
 import { Alert } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const asignarBus = '/driver/asignar-bus'
 
 
@@ -27,8 +28,8 @@ const BusCard = ({ item, seleccionarBus, seleccionado }) => {
             <Text style={
                 item.id == seleccionado ? HomeDriverStyle.busSubtitleBusActive :
                     item.status == 'disponible' || item.driver_id == item.id_user_actual ? HomeDriverStyle.busSubtitleBusFree :
-                        item.status == 'ocupado' ? HomeDriverStyle.busSubtitleBusBusy : 
-                             null
+                        item.status == 'ocupado' ? HomeDriverStyle.busSubtitleBusBusy :
+                            null
 
             }>{item.placa}</Text>
         </TouchableOpacity>
@@ -38,7 +39,7 @@ const BusesList = () => {
     const navigation = useNavigation();
     const [seleccionado, setSeleccionado] = useState(null)
     const [buses, setBuses] = useState()
-    
+
     const [refresh, setRefresh] = useState(false)
 
     // useEffect(() => {
@@ -55,45 +56,51 @@ const BusesList = () => {
                 })
                 .catch(err => {
                     console.log('Error fetching buses', err)
-                                        
-                }                    
+
+                }
                 );
 
             return () => {
             };
         }, [refresh])
     );
-    
+
     const seleccionarBus = (id, data) => {
-        
-        if(data.id_user_actual == data.driver_id){
-            setSeleccionado(id)            
-        } else if (data.status == 'ocupado'){
+
+        if (data.id_user_actual == data.driver_id) {
+            setSeleccionado(id)
+        } else if (data.status == 'ocupado') {
             return null
-        }      
-        else {            
+        }
+        else {
             setSeleccionado(id)
         }
     }
 
-    const comenzarCarrera = () => {
+    const comenzarCarrera = async () => {
         if (seleccionado == null) {
-            return null
+            return null;
         } else {
-            const newData = {id: seleccionado}
-            
-            busApi.post(asignarBus, newData)
-                .then(res => {
-                    setRefresh(!refresh)
-                    navigation.navigate('MapDriver')
-                })
-                .catch(err => {
-                    console.log(err)
-                    Alert.alert('Bus ya seleccionado', 'Bus ya seleccionado porfavor escoja otro.');
-                    setSeleccionado(null)  
-                    setRefresh(!refresh)                  
-                })
-            
+            const newData = { id: seleccionado };
+
+            try {
+                const response = await busApi.post(asignarBus, newData);
+                const busData = response.data.data;
+                console.log(response.data)
+                console.log(response.status, 'status')
+                if (response.status == 201) {
+                } else {
+                    await AsyncStorage.setItem('busNumero', busData.numero);
+                    await AsyncStorage.setItem('busPlaca', busData.placa);
+                }
+                setRefresh(!refresh);
+                navigation.navigate('MapDriver');
+            } catch (err) {
+                console.log(err);
+                Alert.alert('Bus ya seleccionado', 'Bus ya seleccionado por favor escoja otro.');
+                setSeleccionado(null);
+                setRefresh(!refresh);
+            }
         }
     }
 

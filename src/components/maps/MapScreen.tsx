@@ -3,10 +3,11 @@ import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import { Location } from "../../interfaces/location";
 import { getCurrentLocation } from "../../actions/location/location";
 import { FAB } from "../ui/FAB";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useLocationStore } from "../../store/location/useLocationStore";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { AuthContext } from "../../context/AuthContext";
 
 interface Props {
     showUserLocation?: boolean;
@@ -18,57 +19,8 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
     const mapRef = useRef<MapView>();
     const cameraLocation = useRef<Location>(initialLocation);
     const [isFollowingUser, setIsFollowingUser] = useState(true)
-    const [isShowingPolyline, setIsShowingPolyline] = useState(true)
-    const [socket, setSocket] = useState<WebSocket | null>(null); // Estado para almacenar el objeto WebSocket
-    const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
-    const [isConnected, setIsConnected] = useState(false);
-
-    const connectToWebSocket = () => {
-        // const ws = new WebSocket('ws://localhost:3000');
-        const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000' : 'ws://192.168.1.39:3000';
-
-        const ws = new WebSocket(wsUrl);
-
-        ws.onopen = () => {
-            console.log('Conexión WebSocket establecida');
-            setSocket(ws)
-            setIsConnected(true);
-            setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
-        };
-
-        ws.onclose = () => {
-            console.log('Conexión WebSocket cerrada');
-            setIsConnected(false);
-            // Intenta reconectarse después de 5 segundos
-            setReconnectTimer(setTimeout(connectToWebSocket, 5000));
-        };
-
-        ws.onmessage = (event) => {
-            // console.log('Mensaje recibido del servidor:', event.data);
-        };
-
-        ws.onerror = (error) => {
-            // console.error('Error en la conexión WebSocket:', error);
-        };
-
-        return ws;
-    };
-    const socketRef = useRef<WebSocket | null>(null);
-
-    useEffect(() => {
-        socketRef.current = connectToWebSocket();
-
-        return () => {
-            if (socketRef.current) {
-                socketRef.current.close();
-            }
-            // Limpiar el temporizador de reconexión al desmontar el componente
-            if (reconnectTimer) {
-                clearTimeout(reconnectTimer);
-            }
-        };
-    }, []);
-
+    const [isShowingPolyline, setIsShowingPolyline] = useState(true)    
+    const { webSocket } = useContext(AuthContext)
     const { getLocation, lastKnownLocation, watchLocation, clearWatchLocation, userLocationsList } = useLocationStore();
 
     const moveCamaraToLocation = (location: Location) => {
@@ -98,11 +50,33 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
         if (lastKnownLocation && isFollowingUser) {
             moveCamaraToLocation(lastKnownLocation);
         }
-        const message = JSON.stringify({
-            latitude: lastKnownLocation?.latitude,
-            longitude: lastKnownLocation?.longitude
-        });
-        socket?.send(message)
+
+        //
+        // const message = JSON.stringify({
+        //     type: 'update-bus-coordinate',
+        //     payload: {
+        //         bus: "bus",
+        //         latitude: lastKnownLocation?.latitude,
+        //         longitude: lastKnownLocation?.longitude
+        //     }
+        // }
+        // );        
+        // webSocket?.send(message)
+        //
+        if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+            const message = JSON.stringify({
+                type: 'update-bus-coordinate',
+                payload: {
+                    bus: "bus",
+                    latitude: lastKnownLocation?.latitude,
+                    longitude: lastKnownLocation?.longitude
+                }
+            });
+            webSocket.send(message);
+        } else {
+            console.warn("WebSocket not ready. Current state:", webSocket?.readyState);
+        }
+
     }, [lastKnownLocation, isFollowingUser])
 
     const UserLocationIcon = () => (
@@ -129,8 +103,8 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                         isShowingPolyline && (
                             <Polyline
                                 coordinates={userLocationsList}
-                                strokeColor="red"
-                                strokeWidth={5}
+                                strokeColor="gray"
+                                strokeWidth={4}
                             />
                         )
                     }

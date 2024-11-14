@@ -5,6 +5,7 @@ import busApi from "../api/busApi";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userRequest } from "../interfaces/userGoogle";
 import { statusCodes, GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { Platform } from "react-native";
 
 type AuthContextProps = {
     errorMessage: string;
@@ -18,7 +19,7 @@ type AuthContextProps = {
     logOut: () => void;
     logOutGoogle: () => void;
     removeError: () => void;
-
+    webSocket: WebSocket | null; 
 }
 
 const authInicialState: AuthState = {
@@ -38,15 +39,47 @@ GoogleSignin.configure({
 });
 // }, []);
 
+// Websocket inicializacion
+
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({ children }: any) => {
 
     const [state, dispatch] = useReducer(authReducer, authInicialState);
+    const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
 
     useEffect(() => {
         checkToken()
     }, [])
+
+    useEffect(() => {
+        // Establece la conexión al WebSocket cuando se monta el componente
+        const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000/ws' : 'ws://192.168.18.29:3000/ws';
+        const ws = new WebSocket(wsUrl);
+        setWebSocket(ws);
+
+        ws.onopen = () => {
+            console.log("WebSocket conectado");
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket desconectado");
+        };
+
+        ws.onerror = (error) => {
+            console.error("Error en WebSocket:", error);
+        };
+
+        ws.onmessage = (event) => {
+            // console.log("Mensaje recibido waa:", event.data);
+        };
+
+        return () => {
+            if (ws) {
+                ws.close();
+            }
+        };
+    }, [state.token, state]);
 
     const checkToken = async () => {
         const token = await AsyncStorage.getItem('token')
@@ -156,8 +189,13 @@ export const AuthProvider = ({ children }: any) => {
     const logOut = async () => {     
         console.log("deslogueo")
         await busApi.get('/driver/terminar-bus');
-
+        if (webSocket) {
+            webSocket.close();
+            setWebSocket(null); // Limpia el estado de WebSocket
+        }
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('busNumero');
+        await AsyncStorage.removeItem('busPlaca');
         dispatch({ type: 'logout' })
     };
 
@@ -187,7 +225,8 @@ export const AuthProvider = ({ children }: any) => {
             logOut,
             logOutGoogle,
             signInGoogleManual,
-            removeError
+            removeError,
+            webSocket
         }}>
             {children}
         </AuthContext.Provider>

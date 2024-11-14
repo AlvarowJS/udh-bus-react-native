@@ -30,9 +30,14 @@ export const useLocationStore = create<LocationState>()((set, get) => ({
             get().clearWatchLocation()
         }
         const id = watchCurrentLocation( (location) => {
+            let updatedList = [...get().userLocationsList, location];
+            if (updatedList.length > 10) {
+                updatedList.shift();
+            }
             set({
                 lastKnownLocation: location,
-                userLocationsList: [...get().userLocationsList, location]
+                // userLocationsList: [...get().userLocationsList, location]
+                userLocationsList: updatedList
             })
         });
 

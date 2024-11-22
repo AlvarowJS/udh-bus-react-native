@@ -19,7 +19,11 @@ type AuthContextProps = {
     logOut: () => void;
     logOutGoogle: () => void;
     removeError: () => void;
-    webSocket: WebSocket | null; 
+    webSocket: WebSocket | null;
+    refreshState: () => void;
+    // initialityWebSocket: WebSocket | null;
+
+
 }
 
 const authInicialState: AuthState = {
@@ -47,39 +51,79 @@ export const AuthProvider = ({ children }: any) => {
 
     const [state, dispatch] = useReducer(authReducer, authInicialState);
     const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+    const [refresh, setRefresh] = useState<boolean>(false)
 
     useEffect(() => {
         checkToken()
     }, [])
+const refreshState = () => {    
+    setRefresh(!refresh)
+}
+const initializeWebSocket = () => {
+    // const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000/ws' : 'ws://192.168.18.29:3000/ws';
+    const wsUrl = 'wss://coordinate.alvabus.online/ws';
+    const ws = new WebSocket(wsUrl);
+    setWebSocket(ws);
 
-    useEffect(() => {
-        // Establece la conexión al WebSocket cuando se monta el componente
-        const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000/ws' : 'ws://192.168.18.29:3000/ws';
-        const ws = new WebSocket(wsUrl);
-        setWebSocket(ws);
+    ws.onopen = () => {
+        // console.log("WebSocket conectado");
+    };
 
-        ws.onopen = () => {
-            console.log("WebSocket conectado");
-        };
+    ws.onclose = () => {
+        // console.log("WebSocket desconectado");
+    };
 
-        ws.onclose = () => {
-            console.log("WebSocket desconectado");
-        };
+    ws.onerror = (error) => {
+        // console.error("Error en WebSocket:", error);
+    };
 
-        ws.onerror = (error) => {
-            console.error("Error en WebSocket:", error);
-        };
+    ws.onmessage = (event) => {
+        // console.log("Mensaje recibido:", event.data);
+    };
 
-        ws.onmessage = (event) => {
-            // console.log("Mensaje recibido waa:", event.data);
-        };
+    // Retorna una función de limpieza para cerrar el WebSocket
+    return () => {
+        if (ws) {
+            ws.close();
+        }
+    };
+};
 
-        return () => {
-            if (ws) {
-                ws.close();
-            }
-        };
-    }, [state.token, state]);
+useEffect(() => {        
+    const cleanup = initializeWebSocket();
+    return () => {
+        cleanup();
+    };
+}, [state.token, state, refresh]);
+
+
+    // useEffect(() => {        
+    //     const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000/ws' : 'ws://192.168.0.170:3000/ws';
+    //     const ws = new WebSocket(wsUrl);
+    //     setWebSocket(ws);
+
+    //     ws.onopen = () => {
+    //         console.log("WebSocket conectado");
+    //     };
+
+    //     ws.onclose = () => {
+    //         console.log("WebSocket desconectado");
+    //     };
+
+    //     ws.onerror = (error) => {
+    //         console.error("Error en WebSocket:", error);
+    //     };
+
+    //     ws.onmessage = (event) => {
+    //         console.log("Mensaje recibido waa:", event.data);
+    //     };
+    //     console.log("sucedio un cambio en auth contexct")
+    //     return () => {
+    //         if (ws) {
+    //             ws.close();
+    //         }
+    //     };
+    // }, [state.token, state]);
 
     const checkToken = async () => {
         const token = await AsyncStorage.getItem('token')
@@ -147,6 +191,7 @@ export const AuthProvider = ({ children }: any) => {
             }
 
         } catch (error: any) {
+            console.log(error.config, "cual")
             let errorMessage = 'Información Incorrecta';
             if (error.response && error.response.data && error.response.data.msg) {
                 errorMessage = error.response.data.msg;
@@ -186,7 +231,7 @@ export const AuthProvider = ({ children }: any) => {
     };
 
     const signUp = () => { };
-    const logOut = async () => {     
+    const logOut = async () => {
         console.log("deslogueo")
         await busApi.get('/driver/terminar-bus');
         if (webSocket) {
@@ -226,7 +271,9 @@ export const AuthProvider = ({ children }: any) => {
             logOutGoogle,
             signInGoogleManual,
             removeError,
-            webSocket
+            webSocket,
+            refreshState       
+            // initialityWebSocket
         }}>
             {children}
         </AuthContext.Provider>

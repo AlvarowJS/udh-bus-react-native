@@ -18,7 +18,6 @@ const Side = ({ navigation }) => {
     const finishRoute = async () => {
         try {
             const response = await busApi.get(finishedBus);
-            console.log(response.data)
             await AsyncStorage.setItem('busNumero', "");
             await AsyncStorage.setItem('busPlaca', "");
             if (webSocket){

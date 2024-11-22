@@ -3,89 +3,94 @@ import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import { Location } from "../../interfaces/location";
 import { getCurrentLocation } from "../../actions/location/location";
 import { FAB } from "../ui/FAB";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocationStore } from "../../store/location/useLocationStore";
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFocusEffect } from "@react-navigation/native";
 import Paraderos from "./Paraderos";
 import Estados from "./Estados";
-
+import { AuthContext } from "../../context/AuthContext";
+import busApi from "../../api/busApi";
+const URL = '/buses-activos'
 interface Props {
     showUserLocation?: boolean;
     initialLocation: Location
 }
 
 export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
-    
+    const [busesActivo, setBusesActivo] = useState(0)
     const mapRef = useRef<MapView>();
     const [isFollowingUser, setIsFollowingUser] = useState(true)
     const [isShowingPolyline, setIsShowingPolyline] = useState(true)
-    const [socket, setSocket] = useState<WebSocket | null>(null); // Estado para almacenar el objeto WebSocket
     const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [busLocation, setBusLocation] = useState<Location | null>(null);
     const [latitudeState, setLatitudeState] = useState(37.77825);
     const [longitudeState, setLongitudeState] = useState(-122.432)
+    const { webSocket, refreshState } = useContext(AuthContext)
+    const [refresh, setRefresh] = useState(false)
+    const [coordinatesList, setCoordinatesList] = useState<Location[]>([]);
+
+    useEffect(() => {
+        busApi.get(URL)
+            .then(res => {
+                setBusesActivo(res?.data?.length)
+                console.log(res?.data?.length, "se actobop")                
+            })
+            .catch(err => console.log(err))
+    }, [refresh, webSocket])
     
-    const connectToWebSocket = () => {
-        
-        const wsUrl = Platform.OS == 'ios' ? 'ws://localhost:3000' : 'ws://192.168.1.49:3000';
-
-        const ws = new WebSocket(wsUrl);
-
-        // const ws = new WebSocket('ws://192.168.1.39:3000');
-        ws.onopen = () => {
-            setSocket(ws)            
-            setIsConnected(true);
-            setReconnectTimer(null); // Si se conecta con éxito, elimina el temporizador de reconexión
-        };
-
-        ws.onclose = () => {
-            console.log('Conexión WebSocket cerrada');
-            setIsConnected(false);
-            // Intenta reconectarse después de 5 segundos
-            setReconnectTimer(setTimeout(connectToWebSocket, 5000));
-        };
-
-        ws.onmessage = (event) => {
-            console.log("on mensaje")
-            // console.log('Mensaje recibido del servidor:', event.data, typeof (event.data));
-            const coordenadasJson = JSON.parse(event.data);
-            const latitude = coordenadasJson.payload.latitude;
-            const longitude = coordenadasJson.payload.longitude;
-            setIsConnected(true)
-            if (latitude !== latitudeState || longitude !== longitudeState) {
-                setLatitudeState(latitude)
-                setLongitudeState(longitude)
+    const activeWebSocket = () => {
+        refreshState()
+        return null
+    }
+    const handleWebSocketMessages = () => {
+        if (webSocket) {            
+            webSocket.onmessage = (event) => {
+                const coordenadasJson = JSON.parse(event.data);                
+                const latitude = coordenadasJson.payload.latitude;
+                const longitude = coordenadasJson.payload.longitude;                
                 
-            }
+                if (latitude !== latitudeState || longitude !== longitudeState) {
+                    setIsConnected(true)
+                    setLatitudeState(latitude)
+                    setLongitudeState(longitude)
 
-        };
-        return ws
-    };
+                    setCoordinatesList((prevCoordinates) => {
+                        const newCoordinate: Location = { latitude, longitude };
+                        const updatedCoordinates = [...prevCoordinates, newCoordinate];
 
-    const socketRef = useRef<WebSocket | null>(null);
-
-    useFocusEffect(
-        useCallback(() => {
-
-            socketRef.current = connectToWebSocket();
-
-            return () => {
-                if (socketRef.current) {
-                    socketRef.current.close();
-                }
-                // Limpiar el temporizador de reconexión al desmontar el componente
-                if (reconnectTimer) {
-                    clearTimeout(reconnectTimer);
-                }
+                        // Limitar la lista a un máximo de 10 elementos
+                        if (updatedCoordinates.length > 10) {
+                            updatedCoordinates.shift();
+                        }
+                        return updatedCoordinates;
+                    });
+                }          
             };
-        }, [])
-    );
+        }
+       
+    };    
 
-    const { getLocation, lastKnownLocation, watchLocation, clearWatchLocation, userLocationsList } = useLocationStore();
+    useEffect(() => {
+        if (webSocket) {            
+            webSocket.onopen = () => {
+                console.log("WebSocket connection opened");                
+            };
+            webSocket.onerror = (error) => {
+                console.log("WebSocket error", error);
+                setIsConnected(false)
+            };
+            webSocket.onclose = (event) => {                
+                console.log("WebSocket connection closed", event);
+                setIsConnected(false);
+            };
+            handleWebSocketMessages();
 
+        }
+        // setIsConnected(false);
+    }, [webSocket, refresh]);
 
     return (
         <View style={styles.container}>
@@ -107,9 +112,9 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                     {
                         isShowingPolyline && (
                             <Polyline
-                                coordinates={userLocationsList}
-                                strokeColor="red"
-                                strokeWidth={5}
+                                coordinates={coordinatesList}
+                                strokeColor="gray"
+                                strokeWidth={4}
                             />
                         )
                     }
@@ -125,15 +130,15 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
                     bottom: -280,
                 }}>
                     {
-                        isConnected ? null : (
-                            <Estados/>
+                        busesActivo > 0 ? null : (
+                            <Estados />
                         )
-                    }
-                                 
+                    }               
                 </View>
                 <FAB
-                    iconName="eye-outline"
-                    onPress={() => setIsShowingPolyline(!isShowingPolyline)}
+                    iconName="refresh"
+                    // onPress={() => setIsShowingPolyline(!isShowingPolyline)}
+                    onPress={() => setRefresh(!refresh)}
                     style={{
                         bottom: 200,
                         right: 20

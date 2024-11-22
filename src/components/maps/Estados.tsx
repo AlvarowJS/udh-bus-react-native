@@ -27,7 +27,7 @@ const Estados = () => {
             color: 'black',
             textAlign: 'center'
         }}>
-            Hoy no hay anteción 😔
+            Hoy no hay buses trabajando 😔
         </Text>
     </View>  
   )

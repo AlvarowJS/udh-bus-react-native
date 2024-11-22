@@ -22,7 +22,7 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
     const [isShowingPolyline, setIsShowingPolyline] = useState(true)    
     const { webSocket } = useContext(AuthContext)
     const { getLocation, lastKnownLocation, watchLocation, clearWatchLocation, userLocationsList } = useLocationStore();
-
+    
     const moveCamaraToLocation = (location: Location) => {
         if (!mapRef.current) return;
 
@@ -50,19 +50,6 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
         if (lastKnownLocation && isFollowingUser) {
             moveCamaraToLocation(lastKnownLocation);
         }
-
-        //
-        // const message = JSON.stringify({
-        //     type: 'update-bus-coordinate',
-        //     payload: {
-        //         bus: "bus",
-        //         latitude: lastKnownLocation?.latitude,
-        //         longitude: lastKnownLocation?.longitude
-        //     }
-        // }
-        // );        
-        // webSocket?.send(message)
-        //
         if (webSocket && webSocket.readyState === WebSocket.OPEN) {
             const message = JSON.stringify({
                 type: 'update-bus-coordinate',
@@ -74,14 +61,29 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
             });
             webSocket.send(message);
         } else {
-            console.warn("WebSocket not ready. Current state:", webSocket?.readyState);
+            console.log("El WebSocket no está listo para enviar mensajes.");
         }
+        
+        // if (webSocket) {            
+        //     const message = JSON.stringify({
+        //         type: 'update-bus-coordinate',
+        //         payload: {
+        //             bus: "bus",
+        //             latitude: lastKnownLocation?.latitude,
+        //             longitude: lastKnownLocation?.longitude
+        //         }
+        //     });
+        //     webSocket.send(message);
+        // } else {
+        //     console.log("WebSocket not ready. Current state:", webSocket);
+        // }
 
     }, [lastKnownLocation, isFollowingUser])
 
     const UserLocationIcon = () => (
         <MaterialCommunityIcons name="bus-side" size={50} color="black" />
     );
+    
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>

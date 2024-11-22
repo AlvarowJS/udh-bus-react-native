@@ -31,7 +31,7 @@ export const watchCurrentLocation = (
             longitude: info?.coords?.longitude,
         })
     ), (error) => {
-        throw new Error('Cant get watch position')
+        console.log('Cannot get watch position:', error);
     }, {
         enableHighAccuracy: true
     });

@@ -39,9 +39,8 @@ const BusesList = () => {
     const navigation = useNavigation();
     const [seleccionado, setSeleccionado] = useState(null)
     const [buses, setBuses] = useState()
-
     const [refresh, setRefresh] = useState(false)
-
+    const { user, token, logOut, refreshState } = useContext(AuthContext);
     // useEffect(() => {
     //     busApi.get('/driver/mostrar-bus')
     //         .then(res => {
@@ -93,7 +92,9 @@ const BusesList = () => {
                     await AsyncStorage.setItem('busNumero', busData.numero);
                     await AsyncStorage.setItem('busPlaca', busData.placa);
                 }
+                refreshState();
                 setRefresh(!refresh);
+
                 navigation.navigate('MapDriver');
             } catch (err) {
                 console.log(err);
@@ -103,8 +104,7 @@ const BusesList = () => {
             }
         }
     }
-
-    const { user, token, logOut } = useContext(AuthContext);
+    
     return (
         <>
             <View style={HomeDriverStyle.busesback}>

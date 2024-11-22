@@ -39,7 +39,7 @@ export const PermissionChecker = ({ children }: PropsWithChildren) => {
                 setNumberBus('');
             }
         } catch (error) {
-            console.error("Error al obtener datos de AsyncStorage:", error);
+            console.log("Error al obtener datos de AsyncStorage:", error);
         }
     };
 

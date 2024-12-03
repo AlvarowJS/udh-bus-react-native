@@ -84,9 +84,7 @@ const BusesList = () => {
 
             try {
                 const response = await busApi.post(asignarBus, newData);
-                const busData = response.data.data;
-                console.log(response.data)
-                console.log(response.status, 'status')
+                const busData = response.data.data;            
                 if (response.status == 201) {
                 } else {
                     await AsyncStorage.setItem('busNumero', busData.numero);
@@ -97,7 +95,6 @@ const BusesList = () => {
 
                 navigation.navigate('MapDriver');
             } catch (err) {
-                console.log(err);
                 Alert.alert('Bus ya seleccionado', 'Bus ya seleccionado por favor escoja otro.');
                 setSeleccionado(null);
                 setRefresh(!refresh);

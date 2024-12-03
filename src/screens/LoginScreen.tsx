@@ -22,9 +22,9 @@ export const LoginScreen = () => {
     })
     useEffect(() => {
         GoogleSignin.configure({
-            //   webClientId: '803651617332-bjr6fkgfnlme290icjl7jg7vnoeacchu.apps.googleusercontent.com', // Obtén esto desde la consola de desarrolladores de Google
-            scopes: ['email'],
-            webClientId: '803651617332-3i05qlcukt69u1tssq0qfdvjk93oitsc.apps.googleusercontent.com',
+            scopes: ['email', 'profile'],
+            forceCodeForRefreshToken: true,            
+            webClientId: '803651617332-g8h5imng81pf29v71spam5f7sjsjirqe.apps.googleusercontent.com',
             iosClientId: '803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t.apps.googleusercontent.com',
             offlineAccess: true,
         });
@@ -63,18 +63,17 @@ export const LoginScreen = () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
+            console.log(userInfo, "as")
             signInGoogleManual(userInfo.user)
         } catch (error: any) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {
-                // operation (f.e. sign in) is in progress already
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                // play services not available or outdated
             } else {
-                // some other error happened
                 console.log(error)
             }
+
+            console.log(error, "asd ")
         }
     };
 

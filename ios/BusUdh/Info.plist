@@ -29,7 +29,7 @@
 			<string>GoogleSignIn</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t.apps.googleusercontent.com</string>
+				<string>com.googleusercontent.apps.803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t</string>
 			</array>
 		</dict>
 	</array>

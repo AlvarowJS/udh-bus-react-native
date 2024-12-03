@@ -1,4 +1,4 @@
-package com.busudh
+package com.alvarojapa.busudh
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

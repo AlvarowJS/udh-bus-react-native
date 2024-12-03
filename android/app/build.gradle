@@ -81,13 +81,14 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.busudh"
+    namespace "com.alvarojapa.busudh"
     defaultConfig {
-        applicationId "com.busudh"
+        applicationId "com.alvarojapa.busudh"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // manifestPlaceholders = [appAuthRedirectScheme: '.apps.googleusercontent.com.803651617332-0idhmq5ampu75oic9ddvmg9rmtpj03f8']
+        versionCode 7
+        versionName "1.6"
     }
     signingConfigs {
         debug {
@@ -114,7 +115,7 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.release
             // signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             
         }
@@ -125,7 +126,8 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
-
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    // implementation("com.google.android.gms:play-services-auth:20.7.2")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

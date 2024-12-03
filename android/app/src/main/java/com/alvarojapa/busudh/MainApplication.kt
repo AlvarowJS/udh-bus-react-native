@@ -1,4 +1,4 @@
-package com.busudh
+package com.alvarojapa.busudh
 
 import android.app.Application
 import com.facebook.react.PackageList

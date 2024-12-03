@@ -34,10 +34,10 @@ const authInicialState: AuthState = {
 }
 
 // useEffect(() => {
-GoogleSignin.configure({
-    //   webClientId: '803651617332-bjr6fkgfnlme290icjl7jg7vnoeacchu.apps.googleusercontent.com', // Obtén esto desde la consola de desarrolladores de Google
-    scopes: ['email'],
-    webClientId: '803651617332-3i05qlcukt69u1tssq0qfdvjk93oitsc.apps.googleusercontent.com',
+GoogleSignin.configure({    
+    scopes: ['email', 'profile'],
+    forceCodeForRefreshToken: true,
+    webClientId: '803651617332-g8h5imng81pf29v71spam5f7sjsjirqe.apps.googleusercontent.com',
     iosClientId: '803651617332-5gk0u0g9q66ph39ump0aqrfa7eug6d8t.apps.googleusercontent.com',
     offlineAccess: true,
 });
@@ -66,19 +66,15 @@ const initializeWebSocket = () => {
     setWebSocket(ws);
 
     ws.onopen = () => {
-        // console.log("WebSocket conectado");
     };
 
     ws.onclose = () => {
-        // console.log("WebSocket desconectado");
     };
 
     ws.onerror = (error) => {
-        // console.error("Error en WebSocket:", error);
     };
 
     ws.onmessage = (event) => {
-        // console.log("Mensaje recibido:", event.data);
     };
 
     // Retorna una función de limpieza para cerrar el WebSocket
@@ -95,35 +91,6 @@ useEffect(() => {
         cleanup();
     };
 }, [state.token, state, refresh]);
-
-
-    // useEffect(() => {        
-    //     const wsUrl = Platform.OS === 'ios' ? 'ws://localhost:3000/ws' : 'ws://192.168.0.170:3000/ws';
-    //     const ws = new WebSocket(wsUrl);
-    //     setWebSocket(ws);
-
-    //     ws.onopen = () => {
-    //         console.log("WebSocket conectado");
-    //     };
-
-    //     ws.onclose = () => {
-    //         console.log("WebSocket desconectado");
-    //     };
-
-    //     ws.onerror = (error) => {
-    //         console.error("Error en WebSocket:", error);
-    //     };
-
-    //     ws.onmessage = (event) => {
-    //         console.log("Mensaje recibido waa:", event.data);
-    //     };
-    //     console.log("sucedio un cambio en auth contexct")
-    //     return () => {
-    //         if (ws) {
-    //             ws.close();
-    //         }
-    //     };
-    // }, [state.token, state]);
 
     const checkToken = async () => {
         const token = await AsyncStorage.getItem('token')
@@ -179,7 +146,6 @@ useEffect(() => {
 
             } else {
                 const { data } = await busApi.post<LoginResponse>('/login-user', { email, password })
-
                 dispatch({
                     type: 'signUp',
                     payload: {
@@ -191,7 +157,6 @@ useEffect(() => {
             }
 
         } catch (error: any) {
-            console.log(error.config, "cual")
             let errorMessage = 'Información Incorrecta';
             if (error.response && error.response.data && error.response.data.msg) {
                 errorMessage = error.response.data.msg;
@@ -232,7 +197,6 @@ useEffect(() => {
 
     const signUp = () => { };
     const logOut = async () => {
-        console.log("deslogueo")
         await busApi.get('/driver/terminar-bus');
         if (webSocket) {
             webSocket.close();
@@ -251,10 +215,9 @@ useEffect(() => {
             await GoogleSignin.signOut();
         }
         catch (error) {
-            console.log(error)
+            // console.log(error)
         }
         dispatch({ type: 'logout' })
-        console.log("todobien")
 
     }
 

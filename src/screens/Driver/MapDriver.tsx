@@ -15,18 +15,13 @@ const MapDriver = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const { lastKnownLocation, getLocation } = useLocationStore();
-
+    
     useEffect(() => {
         if (lastKnownLocation === null) {
             getLocation()
         }
 
     }, [])
-
-    if (lastKnownLocation === null) {
-        return console.log("loading")
-    }
-
 
     return (
         <>
@@ -49,21 +44,36 @@ const MapDriver = () => {
                 </Text>
 
             </View>
-            {/* <View>
-                <TouchableOpacity activeOpacity={1}>
-                    <Icon
-                        name="menu"
-                        size={30}
-                        style={HomeDriverStyle.menu}
-                        onPress={() => navigation.openDrawer()}
+            {
+                lastKnownLocation ?
+                    <MapScreen
+                        initialLocation={lastKnownLocation}
                     />
-                </TouchableOpacity>
-            </View> */}
-            <MapScreen
-                initialLocation={lastKnownLocation}
-            />
+                    : 
+                    <>
+                        <Text
+                        style={HomeDriverStyle.centerText}
+                        >
+                            ¡Verifica si tienes datos de internet!, y vuelva a ingresar.
+
+                        </Text>                        
+                    </>
+            }
+
+
         </>
     )
+    // if (lastKnownLocation === null) {
+    //     return null
+    // }
+    // return (
+    //     <>
+
+    //         <MapScreen
+    //             initialLocation={lastKnownLocation}
+    //         />
+    //     </>
+    // )
 }
 
 export default MapDriver

@@ -109,6 +109,12 @@ export const HomeDriverStyle = StyleSheet.create({
 
 
     // Menu
+    centerText: {
+        textAlign: 'center',
+        marginTop: 120,
+        color: 'black',
+        fontSize: 20
+    },
     photo: {
         position: 'absolute',
         color: 'white',

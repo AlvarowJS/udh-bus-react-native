@@ -30,17 +30,13 @@ const Paraderos = () => {
                     title={paradero?.titulo}
                     description={paradero?.descripccion}
                 >
-                    {/* <MaterialCommunityIcons
+                    <MaterialCommunityIcons
                         name="bus-stop-covered"
                         size={40}
                         style={{
                             color: 'black',
                         }}
-                    /> */}
-                     <Image
-                                source={require('../../assets/busparadero.png')}
-                                style={{ width: 60, height: 30 }}
-                            />
+                    />
                 </Marker>
             ))}
 

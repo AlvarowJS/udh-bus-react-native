@@ -26,8 +26,8 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     const [reconnectTimer, setReconnectTimer] = useState<NodeJS.Timeout | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const [busLocation, setBusLocation] = useState<Location | null>(null);
-    const [latitudeState, setLatitudeState] = useState(37.77825);
-    const [longitudeState, setLongitudeState] = useState(-122.432)
+    const [latitudeState, setLatitudeState] = useState(-9.891490);
+    const [longitudeState, setLongitudeState] = useState(-76.217101);
     const { webSocket, refreshState } = useContext(AuthContext)
     const [refresh, setRefresh] = useState(false)
     const [coordinatesList, setCoordinatesList] = useState<Location[]>([]);
@@ -35,8 +35,7 @@ export const MapScreenStudent = ({ showUserLocation = false }: Props) => {
     useEffect(() => {
         busApi.get(URL)
             .then(res => {
-                setBusesActivo(res?.data?.length)
-                console.log(res?.data?.length, "se actobop")                
+                setBusesActivo(res?.data?.length)                
             })
             .catch(err => console.log(err))
     }, [refresh, webSocket])

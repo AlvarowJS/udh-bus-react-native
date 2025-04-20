@@ -23,7 +23,7 @@ const HomeStudent = () => {
         </Text>     
         
       </View>
-      <View>
+      <View>        
         <MaterialCommunityIcons
           name="logout"
           size={20}
@@ -32,9 +32,18 @@ const HomeStudent = () => {
         />                  
       </View>
       
+     
       <MapScreenStudent
       />
-    
+     <View>
+     <MaterialCommunityIcons
+          name="logout"
+          size={20}
+          style={{marginLeft: 30}}
+          // style={HomeStudentStyle.logout}
+          onPress={logOutGoogle}
+        />   
+      </View>
     </>
   )
 }

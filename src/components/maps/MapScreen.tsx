@@ -50,6 +50,7 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
         if (lastKnownLocation && isFollowingUser) {
             moveCamaraToLocation(lastKnownLocation);
         }
+        
         // if (webSocket && webSocket.readyState === WebSocket.OPEN) {
         //     const message = JSON.stringify({
         //         type: 'update-bus-coordinate',
@@ -63,7 +64,8 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
         // } else {
         //     console.log("El WebSocket no está listo para enviar mensajes.");
         // }
-        if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+        // if (webSocket && webSocket.readyState === WebSocket.OPEN) {
+            
             const message = JSON.stringify({
                 type: 'update-bus-coordinate',
                 payload: {
@@ -72,14 +74,14 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                     longitude: lastKnownLocation?.longitude
                 }
             });
-            try {
+            // try {
                 webSocket.send(message);
-            } catch (error) {
-                console.log("Error al enviar mensaje WebSocket:", error);
-            }
-        } else {
-            console.log("El WebSocket no está listo para enviar mensajes.");
-        }
+            // } catch (error) {
+            //     console.log("Error al enviar mensaje WebSocket:", error);
+            // }
+        // } else {
+        //     console.log("El WebSocket no está listo para enviar mensajes.");
+        // }
         
         
         // if (webSocket) {            

@@ -75,7 +75,7 @@ export const MapScreen = ({ showUserLocation = false, initialLocation }: Props) 
                 }
             });
             // try {
-                webSocket.send(message);
+                // webSocket.send(message);
             // } catch (error) {
             //     console.log("Error al enviar mensaje WebSocket:", error);
             // }

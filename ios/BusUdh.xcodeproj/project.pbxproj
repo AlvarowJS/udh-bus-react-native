@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* BusUdhTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BusUdhTests.m */; };
+		0DD1E4538E4F3E5FDC4941BE /* libPods-BusUdh-BusUdhTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB88B60560DBCAD66C501E54 /* libPods-BusUdh-BusUdhTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B1A9C15DD86663E771D7EAF /* libPods-BusUdh-BusUdhTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2D3300565014CC5F1A4AF4 /* libPods-BusUdh-BusUdhTests.a */; };
-		42F6B5C1A53E305A6FA0548E /* libPods-BusUdh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB17CCFAA9123B6541093B4 /* libPods-BusUdh.a */; };
+		501DA274BD80303E6F435B0C /* libPods-BusUdh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70DC7BD8EFBC554440D5BBBC /* libPods-BusUdh.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DA9070952E11F92800685DA9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA9070942E11F92800685DA9 /* GoogleService-Info.plist */; };
+		DA9070962E11F92800685DA9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA9070942E11F92800685DA9 /* GoogleService-Info.plist */; };
 		DAB5BDD02B8C51AC000D42FA /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA182B0A2B8C23D800F58330 /* Ionicons.ttf */; };
 		DAB5BDD12B8C51AC000D42FA /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DA182B092B8C23D800F58330 /* MaterialCommunityIcons.ttf */; };
 /* End PBXBuildFile section */
@@ -38,15 +40,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BusUdh/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BusUdh/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BusUdh/main.m; sourceTree = "<group>"; };
-		1F2D3300565014CC5F1A4AF4 /* libPods-BusUdh-BusUdhTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusUdh-BusUdhTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49D5393674A0FA34201A5DB6 /* Pods-BusUdh-BusUdhTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh-BusUdhTests.release.xcconfig"; path = "Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests.release.xcconfig"; sourceTree = "<group>"; };
-		5DB17CCFAA9123B6541093B4 /* libPods-BusUdh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusUdh.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BFF147847607FC90C91EE58 /* Pods-BusUdh-BusUdhTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh-BusUdhTests.debug.xcconfig"; path = "Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2D88FCECD7D995D5E023D629 /* Pods-BusUdh-BusUdhTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh-BusUdhTests.release.xcconfig"; path = "Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests.release.xcconfig"; sourceTree = "<group>"; };
+		3380236BB4BF49B089C6E7FD /* Pods-BusUdh-BusUdhTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh-BusUdhTests.debug.xcconfig"; path = "Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests.debug.xcconfig"; sourceTree = "<group>"; };
+		70DC7BD8EFBC554440D5BBBC /* libPods-BusUdh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusUdh.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BusUdh/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AADE765168AE7901F9BC7EB6 /* Pods-BusUdh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh.debug.xcconfig"; path = "Target Support Files/Pods-BusUdh/Pods-BusUdh.debug.xcconfig"; sourceTree = "<group>"; };
-		B7277038869DE7107A624BBB /* Pods-BusUdh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh.release.xcconfig"; path = "Target Support Files/Pods-BusUdh/Pods-BusUdh.release.xcconfig"; sourceTree = "<group>"; };
+		AF290EE410B7B7A72000A5FF /* Pods-BusUdh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh.debug.xcconfig"; path = "Target Support Files/Pods-BusUdh/Pods-BusUdh.debug.xcconfig"; sourceTree = "<group>"; };
+		B941FBAE18724EA5A41D06F9 /* Pods-BusUdh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BusUdh.release.xcconfig"; path = "Target Support Files/Pods-BusUdh/Pods-BusUdh.release.xcconfig"; sourceTree = "<group>"; };
+		CB88B60560DBCAD66C501E54 /* libPods-BusUdh-BusUdhTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BusUdh-BusUdhTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA182B092B8C23D800F58330 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DA182B0A2B8C23D800F58330 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		DA9070942E11F92800685DA9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -55,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B1A9C15DD86663E771D7EAF /* libPods-BusUdh-BusUdhTests.a in Frameworks */,
+				0DD1E4538E4F3E5FDC4941BE /* libPods-BusUdh-BusUdhTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42F6B5C1A53E305A6FA0548E /* libPods-BusUdh.a in Frameworks */,
+				501DA274BD80303E6F435B0C /* libPods-BusUdh.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +107,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DB17CCFAA9123B6541093B4 /* libPods-BusUdh.a */,
-				1F2D3300565014CC5F1A4AF4 /* libPods-BusUdh-BusUdhTests.a */,
+				70DC7BD8EFBC554440D5BBBC /* libPods-BusUdh.a */,
+				CB88B60560DBCAD66C501E54 /* libPods-BusUdh-BusUdhTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				DA9070942E11F92800685DA9 /* GoogleService-Info.plist */,
 				DA182B082B8C238000F58330 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* BusUdh */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -145,10 +149,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AADE765168AE7901F9BC7EB6 /* Pods-BusUdh.debug.xcconfig */,
-				B7277038869DE7107A624BBB /* Pods-BusUdh.release.xcconfig */,
-				7BFF147847607FC90C91EE58 /* Pods-BusUdh-BusUdhTests.debug.xcconfig */,
-				49D5393674A0FA34201A5DB6 /* Pods-BusUdh-BusUdhTests.release.xcconfig */,
+				AF290EE410B7B7A72000A5FF /* Pods-BusUdh.debug.xcconfig */,
+				B941FBAE18724EA5A41D06F9 /* Pods-BusUdh.release.xcconfig */,
+				3380236BB4BF49B089C6E7FD /* Pods-BusUdh-BusUdhTests.debug.xcconfig */,
+				2D88FCECD7D995D5E023D629 /* Pods-BusUdh-BusUdhTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -169,12 +173,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BusUdhTests" */;
 			buildPhases = (
-				C0656D314543B768D8A43C6E /* [CP] Check Pods Manifest.lock */,
+				CED13AAE979C5C1B2978087A /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				556BFC722DFCEFE224E52F5C /* [CP] Embed Pods Frameworks */,
-				57026650348A570186814A5B /* [CP] Copy Pods Resources */,
+				2B2DD45B78E284805E7D8BFE /* [CP] Embed Pods Frameworks */,
+				A5D2CC10F36BC2B685415593 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -190,13 +194,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BusUdh" */;
 			buildPhases = (
-				8AAFD8A29968ABF8333FCF72 /* [CP] Check Pods Manifest.lock */,
+				EC3D0E140F9F323F8184AEF6 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				3B9ED47742653AA8025EF92E /* [CP] Embed Pods Frameworks */,
-				0DC251FFC61DF19E7AAC93F2 /* [CP] Copy Pods Resources */,
+				75712C88D248C0D69734A768 /* [CP] Embed Pods Frameworks */,
+				E64639211775075353D30747 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,6 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA9070962E11F92800685DA9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +262,7 @@
 			files = (
 				DAB5BDD02B8C51AC000D42FA /* Ionicons.ttf in Resources */,
 				DAB5BDD12B8C51AC000D42FA /* MaterialCommunityIcons.ttf in Resources */,
+				DA9070952E11F92800685DA9 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
@@ -281,41 +287,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0DC251FFC61DF19E7AAC93F2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3B9ED47742653AA8025EF92E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		556BFC722DFCEFE224E52F5C /* [CP] Embed Pods Frameworks */ = {
+		2B2DD45B78E284805E7D8BFE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -332,7 +304,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		57026650348A570186814A5B /* [CP] Copy Pods Resources */ = {
+		75712C88D248C0D69734A768 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5D2CC10F36BC2B685415593 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -349,29 +338,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh-BusUdhTests/Pods-BusUdh-BusUdhTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8AAFD8A29968ABF8333FCF72 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BusUdh-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C0656D314543B768D8A43C6E /* [CP] Check Pods Manifest.lock */ = {
+		CED13AAE979C5C1B2978087A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -387,6 +354,45 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-BusUdh-BusUdhTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E64639211775075353D30747 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BusUdh/Pods-BusUdh-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC3D0E140F9F323F8184AEF6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BusUdh-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -426,7 +432,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BFF147847607FC90C91EE58 /* Pods-BusUdh-BusUdhTests.debug.xcconfig */;
+			baseConfigurationReference = 3380236BB4BF49B089C6E7FD /* Pods-BusUdh-BusUdhTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -453,7 +459,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 49D5393674A0FA34201A5DB6 /* Pods-BusUdh-BusUdhTests.release.xcconfig */;
+			baseConfigurationReference = 2D88FCECD7D995D5E023D629 /* Pods-BusUdh-BusUdhTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -477,7 +483,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AADE765168AE7901F9BC7EB6 /* Pods-BusUdh.debug.xcconfig */;
+			baseConfigurationReference = AF290EE410B7B7A72000A5FF /* Pods-BusUdh.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -485,6 +491,7 @@
 				DEVELOPMENT_TEAM = TGPUK4NJ32;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BusUdh/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BusUdh;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -505,13 +512,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7277038869DE7107A624BBB /* Pods-BusUdh.release.xcconfig */;
+			baseConfigurationReference = B941FBAE18724EA5A41D06F9 /* Pods-BusUdh.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TGPUK4NJ32;
 				INFOPLIST_FILE = BusUdh/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BusUdh;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -598,7 +606,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -666,7 +677,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

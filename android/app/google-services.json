@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510821162832",
+    "project_id": "busudh-c3bcc",
+    "storage_bucket": "busudh-c3bcc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510821162832:android:0ef95c3fc411a8390a9655",
+        "android_client_info": {
+          "package_name": "com.alvarojapa.busudh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU9DaYHppBNb5OyWwWFlg_1yxTdFem5dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
